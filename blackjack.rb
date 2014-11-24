@@ -33,6 +33,10 @@ class Deck
 	def scramble!
 		cards.shuffle!
 	end
+
+	def deal 
+		cards.pop
+	end
 end
 
 
@@ -44,3 +48,29 @@ end
 class Dealer 
 
 end
+
+class Blackjack
+	attr_accessor :player, :dealer, :deck
+
+	def initialize 
+		@player = Player.new("Bob")
+		@dealer = Dealer.new
+		@deck = Deck.new
+	end
+
+	def run 
+		deal_cards
+		show_flop
+		players.each do |player|
+			player_turn(player)
+		player_turn
+		dealer_turn
+		who_won?
+	end
+end
+
+Blackjack.new.run 
+
+# OR
+# game = Blackjack.new 
+# game.run 
