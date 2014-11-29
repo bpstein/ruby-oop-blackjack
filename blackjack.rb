@@ -12,9 +12,19 @@ class Card
 	end
 
 	def to_s
-		"This is the card! #{suit}, #{value}"
+		"This is the card! #{suit}, #{find_suit}"
+	end
+
+	def find_suit
+		case suit
+			when "H" then "Hearts"
+			when "D" then "Diamonds"
+			when "C" then "Clubs"
+			when "S" then "Spades"
+		end
 	end
 end
+
 
 class Deck
 	attr_accessor :cards
@@ -45,17 +55,28 @@ class Player
 
 end
 
+
 class Dealer 
 
 end
 
+class Hand
+end
+
+
 class Blackjack
 	attr_accessor :player, :dealer, :deck
 
-	def initialize 
+	def initialize
 		@player = Player.new("Bob")
-		@dealer = Dealer.new
+		@dealer = Dealer.new("Dealer")
 		@deck = Deck.new
+	end
+
+	def show_flop
+		cards each do |card| 
+			puts "the #{@value} of #{@suit}"
+		end
 	end
 
 	def run 
@@ -63,6 +84,7 @@ class Blackjack
 		show_flop
 		players.each do |player|
 			player_turn(player)
+		end
 		player_turn
 		dealer_turn
 		who_won?
