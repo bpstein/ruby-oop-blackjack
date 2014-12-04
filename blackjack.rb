@@ -3,6 +3,9 @@
 # 3. Extract major verbs -> instance methods
 # 4. Group instance methods into classes 
 
+# require 'rubygems'
+# require 'pry'
+
 class Card 
 	attr_accessor :suit, :value
 
@@ -12,7 +15,7 @@ class Card
 	end
 
 	def to_s
-		"This is the card! #{suit}, #{find_suit}"
+		"This is the card! #{value} of #{find_suit}"
 	end
 
 	def find_suit
@@ -36,7 +39,7 @@ class Deck
 				@cards << Card.new(suit, face_value)
 			end
 		end
-		@cards = @cards * num_decks
+		# @cards = @cards * num_decks
 		scramble!
 	end
 
@@ -49,49 +52,59 @@ class Deck
 	end
 end
 
+module Hand
+	def show_hand
+		puts "----- #{name}'s Hand -----"
+		cards.each do|card|
+		end
+			puts "=> #{card}"
+	end
+
+	def total
+		"some total"
+	end
+
+	def add_card(new_card)
+		@card << new_card
+	end
+end
 
 
 class Player
+	include Hand
+
+	attr_accessor :name, :cards
+
+	def initialize(n)
+		@name = n
+		@cards = []
+	end
 
 end
 
 
 class Dealer 
+	include Hand
 
-end
+	attr_accessor :name, :cards
 
-class Hand
-end
-
-
-class Blackjack
-	attr_accessor :player, :dealer, :deck
-
-	def initialize
-		@player = Player.new("Bob")
-		@dealer = Dealer.new("Dealer")
-		@deck = Deck.new
-	end
-
-	def show_flop
-		cards each do |card| 
-			puts "the #{@value} of #{@suit}"
-		end
-	end
-
-	def run 
-		deal_cards
-		show_flop
-		players.each do |player|
-			player_turn(player)
-		end
-		player_turn
-		dealer_turn
-		who_won?
+	def initialize 
+		@name = "Dealer"
+		@cards = []
 	end
 end
 
-Blackjack.new.run 
+
+deck = Deck.new
+player = Player.new("Chris")
+player.add_card(deck.deal)
+player.add_card(deck.deal)
+player.show_hand
+
+dealer = Dealer.new
+dealer.add_card(deck.deal)
+dealer.add_card(deck.deal)
+dealer.show_hand
 
 # OR
 # game = Blackjack.new 
